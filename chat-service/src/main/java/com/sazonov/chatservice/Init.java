@@ -1,6 +1,8 @@
 package com.sazonov.chatservice;
 
+import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.repository.ChatRepository;
 import com.sazonov.chatservice.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -21,6 +24,9 @@ public class Init implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    ChatRepository chatRepository;
 
 
     @Override
@@ -40,5 +46,13 @@ public class Init implements CommandLineRunner {
         );
         log.debug("printing all users...");
         this.users.findAll().forEach(v -> log.debug(" User :" + v.toString()));
+
+        List<User> userList = users.findAll();
+
+        chatRepository.save(Chat.builder()
+                .name("My chat")
+                .members(userList)
+                .build()
+        );
     }
 }
