@@ -9,15 +9,22 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "chats")
+@Table(name = "members")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+public class Members {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
 
+
+    @JoinColumn(name = "user_id")
+    @OneToOne
+    private User user;
+
+    @JoinColumn(name = "chat_id")
+    @OneToOne
+    private Chat chat;
 }

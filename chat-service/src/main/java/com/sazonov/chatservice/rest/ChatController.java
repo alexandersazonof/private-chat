@@ -1,11 +1,12 @@
 package com.sazonov.chatservice.rest;
 
 import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.repository.ChatRepository;
+import com.sazonov.chatservice.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,12 +18,14 @@ import static org.springframework.http.ResponseEntity.ok;
 public class ChatController {
 
     @Autowired
-    private ChatRepository chatRepository;
+    private ChatService chatService;
 
     @GetMapping("")
-    public ResponseEntity getAllByUserId(){
-        List<Chat> chats = chatRepository.findByUserId(1L);
+    public ResponseEntity getAllByUserId(@RequestParam(required = true) Long id){
+        List<Chat> chats = chatService.findByUserId(id);
 
         return ok(chats);
     }
+
+
 }

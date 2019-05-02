@@ -1,6 +1,7 @@
 package com.sazonov.chatservice;
 
 import com.sazonov.chatservice.model.Chat;
+import com.sazonov.chatservice.model.Members;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.repository.ChatRepository;
 import com.sazonov.chatservice.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,12 +49,18 @@ public class Init implements CommandLineRunner {
         log.debug("printing all users...");
         this.users.findAll().forEach(v -> log.debug(" User :" + v.toString()));
 
-        List<User> userList = users.findAll();
-
-        chatRepository.save(Chat.builder()
+        Chat chat = Chat.builder()
                 .name("My chat")
-                .members(userList)
-                .build()
-        );
+                .build();
+
+        Members members = Members.builder()
+                .user(users.getOne(1L))
+                .chat(chat)
+                .build();
+        List<Members> members1 = new ArrayList<>();
+        members1.add(members);
+
+
+        chatRepository.save(chat);
     }
 }
