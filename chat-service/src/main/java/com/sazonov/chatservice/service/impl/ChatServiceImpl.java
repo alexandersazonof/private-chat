@@ -2,7 +2,9 @@ package com.sazonov.chatservice.service.impl;
 
 import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.repository.ChatRepository;
+import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.service.ChatService;
+import com.sazonov.chatservice.service.exception.ChatNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +38,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public Chat update(Chat chat) {
         return chatRepository.save(chat);
+    }
+
+    @Override
+    public Chat findById(Long id) throws RestException {
+        return chatRepository.findById(id).orElseThrow(() -> new ChatNotFoundException("Chat don't found"));
     }
 }

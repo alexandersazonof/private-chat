@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
-@Embeddable
-@Table(name = "members")
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

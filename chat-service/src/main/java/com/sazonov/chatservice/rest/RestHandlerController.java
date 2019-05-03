@@ -1,6 +1,7 @@
 package com.sazonov.chatservice.rest;
 
 import com.sazonov.chatservice.form.exception.PasswordNotMatchException;
+import com.sazonov.chatservice.service.exception.ChatNotFoundException;
 import com.sazonov.chatservice.service.exception.UserExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 public class RestHandlerController {
 
     @ExceptionHandler({PasswordNotMatchException.class, BadCredentialsException.class})
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public HashMap incorrectArguments(Exception exception) {
         log.warn(exception.getMessage());
 
@@ -39,6 +40,15 @@ public class RestHandlerController {
 
         return message("User exists", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ChatNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public HashMap chatNotFound(Exception e) {
+        log.warn(e.getMessage());
+
+        return message("Chat not found", HttpStatus.NOT_FOUND);
+    }
+
 
 
 

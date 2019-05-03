@@ -47,7 +47,6 @@ public class Init implements CommandLineRunner {
                 .build()
         );
         log.debug("printing all users...");
-        this.users.findAll().forEach(v -> log.debug(" User :" + v.toString()));
 
         Chat chat = Chat.builder()
                 .name("My chat")
