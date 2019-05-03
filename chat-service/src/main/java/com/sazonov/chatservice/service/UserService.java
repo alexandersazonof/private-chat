@@ -11,4 +11,5 @@ public interface UserService {
 
     User signUp(User user) throws RestException;
     HashMap login(User user) throws RestException;
+    User findById(Long id) throws RestException;
 }

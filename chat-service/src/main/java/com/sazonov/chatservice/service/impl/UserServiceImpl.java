@@ -7,6 +7,7 @@ import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.service.UserService;
 import com.sazonov.chatservice.service.exception.UserExistsException;
+import com.sazonov.chatservice.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -61,5 +62,10 @@ public class UserServiceImpl implements UserService {
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
         }
+    }
+
+    @Override
+    public User findById(Long id) throws RestException {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }
