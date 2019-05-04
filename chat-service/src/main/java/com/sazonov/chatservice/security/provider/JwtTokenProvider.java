@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.security.provider;
 
+import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.security.exception.InvalidJwtAuthenticationException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     private long validityInMilliseconds = 3600000;
 
     @Autowired
-    @Qualifier(value = "userDetails")
+    @Qualifier(value = "userDetailsService")
     private UserDetailsService userDetailsService;
 
     @PostConstruct
@@ -37,9 +37,9 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, List<String> roles) {
+    public String createToken(User user, List<String> roles) {
 
-        Claims claims = Jwts.claims().setSubject(username);
+        Claims claims = Jwts.claims().setSubject(user.getLogin());
         claims.put("roles", roles);
 
         Date now = new Date();
@@ -54,12 +54,22 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(parseToken(token).getLogin());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    public User parseToken(String token) {
+        Claims body = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        User user = User.builder()
+                .login(body.getSubject())
+                .password("")
+                .build();
+
+        return user;
     }
 
     public String resolveToken(HttpServletRequest req) {

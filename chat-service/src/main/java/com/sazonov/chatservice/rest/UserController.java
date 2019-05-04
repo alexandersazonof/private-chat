@@ -1,6 +1,5 @@
 package com.sazonov.chatservice.rest;
 
-import com.sazonov.chatservice.dto.UserDto;
 import com.sazonov.chatservice.form.UserForm;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
@@ -30,10 +29,8 @@ public class UserController {
 
 
     @PostMapping("/signin")
-    public ResponseEntity signIn(@RequestBody UserDto userDto) throws RestException {
+    public ResponseEntity signIn(@RequestBody User user) throws RestException {
         log.info("Sign in action");
-
-        User user = userDto.from();
 
         HashMap model = userService.login(user);
 

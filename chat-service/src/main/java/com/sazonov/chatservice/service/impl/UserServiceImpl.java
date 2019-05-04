@@ -1,6 +1,5 @@
 package com.sazonov.chatservice.service.impl;
 
-import com.sazonov.chatservice.form.UserForm;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.repository.UserRepository;
 import com.sazonov.chatservice.rest.exception.RestException;
@@ -17,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
             String login = user.getLogin();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, user.getPassword()));
-            String token = jwtTokenProvider.createToken(login, userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("Username " + login + "not found")).getRoles());
+            String token = jwtTokenProvider.createToken(user, userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("Username " + login + "not found")).getRoles());
 
 
             HashMap<String, String> model = new HashMap<>();
@@ -67,5 +65,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) throws RestException {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public User findByLogin(String login) throws RestException {
+        return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }
