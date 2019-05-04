@@ -3,9 +3,11 @@ package com.sazonov.chatservice.rest;
 import com.sazonov.chatservice.form.exception.PasswordNotMatchException;
 import com.sazonov.chatservice.security.exception.AccessDeniedException;
 import com.sazonov.chatservice.service.exception.ChatNotFoundException;
+import com.sazonov.chatservice.service.exception.MessageNotFoundException;
 import com.sazonov.chatservice.service.exception.UserExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -67,6 +69,21 @@ public class RestHandlerController {
         return message("Access denied", HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(MessageNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public HashMap messageNotFound(Exception e) {
+        log.warn(e.getMessage());
+
+        return message("Message not found", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HashMap incorrectConvertFromJson(HttpMessageNotReadableException e) {
+        log.warn(e.getMessage());
+
+        return message("Incorrect arguments", HttpStatus.BAD_REQUEST);
+    }
 
 
 

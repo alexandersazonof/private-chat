@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ChatController {
     }
 
     @PostMapping("")
-    public ResponseEntity createChat(@RequestBody ChatForm chatForm) throws RestException {
+    public ResponseEntity createChat(@RequestBody @Valid ChatForm chatForm) throws RestException {
 
         List<User> users = new ArrayList<>();
 
@@ -101,7 +102,7 @@ public class ChatController {
 
     @PutMapping("/{id}")
     public ResponseEntity editChatById(@PathVariable Long id,
-                                       @RequestBody ChatForm chatForm) throws RestException {
+                                       @RequestBody @Valid ChatForm chatForm) throws RestException {
 
 
         Chat chat = chatService.findById(id);

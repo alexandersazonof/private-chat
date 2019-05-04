@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -13,7 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatForm {
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private List<Long> members;
 
 

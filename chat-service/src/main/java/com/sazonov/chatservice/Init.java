@@ -34,12 +34,14 @@ public class Init implements CommandLineRunner {
         //...
         this.users.save(User.builder()
                 .login("user")
+                .name("maga")
                 .password(this.passwordEncoder.encode("password"))
                 .roles(Arrays.asList( "ROLE_USER"))
                 .build()
         );
         this.users.save(User.builder()
                 .login("admin")
+                .name("ara")
                 .password(this.passwordEncoder.encode("password"))
                 .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
                 .build()

@@ -1,6 +1,7 @@
 package com.sazonov.chatservice.security.util;
 
 import com.sazonov.chatservice.model.Chat;
+import com.sazonov.chatservice.model.Message;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.exception.AccessDeniedException;
@@ -69,10 +70,19 @@ public class SecurityUtil {
 
     public boolean userHasAccess(Long id) throws RestException {
 
-        if (id == getUserFromSecurityContext().getId()) {
-            return true;
+        if (id != getUserFromSecurityContext().getId()) {
+            throw new AccessDeniedException("Access denied");
         }
 
-        throw new AccessDeniedException("Access denied");
+        return true;
+    }
+
+    public boolean userHasAccessToMessage(User user, Message message) throws AccessDeniedException {
+
+        if(user.getId() != message.getUser().getId()) {
+            throw new AccessDeniedException("Access denied");
+        }
+
+        return true;
     }
 }

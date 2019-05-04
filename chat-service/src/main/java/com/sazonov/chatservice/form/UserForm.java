@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -27,6 +26,8 @@ public class UserForm {
 
     @NotBlank
     private String passwordConfirm;
+
+    @NotBlank
     private String name;
 
     public User from() throws PasswordNotMatchException {
