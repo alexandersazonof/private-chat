@@ -3,7 +3,7 @@ package com.sazonov.chatservice.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class MessageDto {
@@ -11,12 +11,6 @@ public class MessageDto {
     @NotBlank
     private String value;
 
-    @NotBlank
-    private Date date;
-
-    @NotBlank
+    @NotNull
     private Long userId;
-
-    @NotBlank
-    private Long chatId;
 }

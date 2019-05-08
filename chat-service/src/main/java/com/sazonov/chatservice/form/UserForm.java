@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
@@ -31,7 +29,6 @@ public class UserForm {
     private String name;
 
     public User from() throws PasswordNotMatchException {
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
         if (!password.equals(passwordConfirm)) {
             throw new PasswordNotMatchException("Passwords do not match");
@@ -39,7 +36,8 @@ public class UserForm {
 
         return User.builder()
                 .login(login)
-                .password(passwordEncoder.encode(password))
+                .name(name)
+                .password(password)
                 .roles(Arrays.asList("ROLE_USER"))
                 .build();
     }

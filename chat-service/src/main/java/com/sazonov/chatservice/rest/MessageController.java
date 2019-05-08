@@ -3,6 +3,7 @@ package com.sazonov.chatservice.rest;
 import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.model.Message;
+import com.sazonov.chatservice.model.ResponseMessage;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -47,11 +48,17 @@ public class MessageController {
 
         List<Message> messages = messageService.findByChatId(chatId);
 
-        HashMap response = new HashMap();
+        messages.stream().forEach(message -> {
+            securityUtil.deletePassword(message.getUser());
+            securityUtil.deletePassword(message.getChat().getUsers());
+        });
 
-        response.put("messages", messages);
 
-        return ok(response);
+        return ok(
+                ResponseMessage.builder()
+                .put("success", true)
+                .put("messages", messages)
+        );
     }
 
     @GetMapping("/{id}")
@@ -64,11 +71,13 @@ public class MessageController {
         securityUtil.userExistInChat(user, chat);
 
         Message message = messageService.findById(id);
+        securityUtil.deletePassword(message.getUser());
+        securityUtil.deletePassword(message.getChat().getUsers());
 
-        HashMap response = new HashMap();
-        response.put("message", message);
 
-        return ok(response);
+        return ok( ResponseMessage.builder()
+                .put("success", true)
+                .put("messages", message));
     }
 
     @PostMapping("")
@@ -82,24 +91,24 @@ public class MessageController {
 
         Message message = Message.builder()
                 .value(messageDto.getValue())
-                .date(messageDto.getDate())
+                .date(new Date())
                 .user(userService.findById(messageDto.getUserId()))
-                .chat(chatService.findById(messageDto.getChatId()))
+                .chat(chatService.findById(chatId))
                 .build();
 
         messageService.save(message);
 
-        HashMap response = new HashMap();
-        response.put("success", true);
 
-        return ok(response);
+
+        return ok(
+                ResponseMessage.builder()
+                .put("success", true)
+        );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteMessageById(@PathVariable Long chatId,
                                             @PathVariable Long id) throws RestException {
-
-        Chat chat = chatService.findById(chatId);
 
         User user = securityUtil.getUserFromSecurityContext();
         Message message = messageService.findById(id);
@@ -108,10 +117,10 @@ public class MessageController {
 
         messageService.delete(message);
 
-        HashMap response = new HashMap();
-        response.put("success", true);
-
-        return ok(response);
+        return ok(
+                ResponseMessage.builder()
+                        .put("success", true)
+        );
     }
 
     @PutMapping("/{id}")
@@ -119,7 +128,6 @@ public class MessageController {
                                           @PathVariable Long id,
                                           @RequestBody @Valid MessageDto messageDto) throws RestException {
 
-        Chat chat = chatService.findById(chatId);
 
         User user = securityUtil.getUserFromSecurityContext();
         Message messageCheck = messageService.findById(id);
@@ -129,16 +137,16 @@ public class MessageController {
         Message message = Message.builder()
                 .id(id)
                 .value(messageDto.getValue())
-                .date(messageDto.getDate())
+                .date(messageCheck.getDate())
                 .user(userService.findById(messageDto.getUserId()))
-                .chat(chatService.findById(messageDto.getChatId()))
+                .chat(chatService.findById(chatId))
                 .build();
 
         messageService.update(message);
 
-        HashMap response = new HashMap();
-        response.put("success", true);
-
-        return ok(response);
+        return ok(
+                ResponseMessage.builder()
+                        .put("success", true)
+        );
     }
 }

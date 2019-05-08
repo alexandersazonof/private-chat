@@ -1,6 +1,7 @@
 package com.sazonov.chatservice.rest;
 
 import com.sazonov.chatservice.form.UserForm;
+import com.sazonov.chatservice.model.ResponseMessage;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.service.UserService;
@@ -13,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/auth")
 @Slf4j
-public class UserController {
+public class AuthController {
 
 
     @Autowired
@@ -32,9 +31,13 @@ public class UserController {
     public ResponseEntity signIn(@RequestBody User user) throws RestException {
         log.info("Sign in action");
 
-        HashMap model = userService.login(user);
+        String token = userService.login(user);
 
-        return ok(model);
+        return ok(
+                ResponseMessage.builder()
+                .put("success", "true")
+                .put("token", token)
+        );
     }
 
     @PostMapping("/signup")
@@ -44,11 +47,10 @@ public class UserController {
         User user = userForm.from();
         user = userService.signUp(user);
 
-        Map<Object, Object> model = new HashMap<>();
-
-        model.put("login", user.getLogin());
-        model.put("success", true);
-
-        return ok(model);
+        return ok(
+                ResponseMessage.builder()
+                .put("success", "true")
+                .put("login", user.getLogin())
+        );
     }
 }

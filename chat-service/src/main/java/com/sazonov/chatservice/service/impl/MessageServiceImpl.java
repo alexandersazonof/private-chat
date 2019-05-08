@@ -3,6 +3,7 @@ package com.sazonov.chatservice.service.impl;
 import com.sazonov.chatservice.model.Message;
 import com.sazonov.chatservice.repository.MessageRepository;
 import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.MessageService;
 import com.sazonov.chatservice.service.exception.MessageNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private SecurityUtil securityUtil;
 
 
 

@@ -13,9 +13,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,8 +28,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public User signUp(User user) throws RestException {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         if (userRepository.findByLogin(user.getLogin()).isPresent()) {
             throw new UserExistsException("User exits");
@@ -40,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap login(User user) throws RestException {
+    public String login(User user) throws RestException {
 
         try {
 
@@ -48,14 +51,7 @@ public class UserServiceImpl implements UserService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, user.getPassword()));
             String token = jwtTokenProvider.createToken(user, userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("Username " + login + "not found")).getRoles());
 
-
-            HashMap<String, String> model = new HashMap<>();
-
-
-            model.put("username", login);
-            model.put("token", token);
-
-            return model;
+            return token;
 
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");
@@ -64,11 +60,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) throws RestException {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+
+        return user;
     }
 
     @Override
     public User findByLogin(String login) throws RestException {
-        return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+
+        return user;
     }
 }

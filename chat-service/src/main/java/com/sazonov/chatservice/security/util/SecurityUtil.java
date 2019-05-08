@@ -85,4 +85,22 @@ public class SecurityUtil {
 
         return true;
     }
+
+    public void deletePassword(User user) {
+        if (user.getPassword() != null) {
+            user.setPassword("");
+        }
+    }
+
+    public void deletePassword(List<User> users) {
+        users.stream().forEach(user -> deletePassword(user));
+    }
+
+    public Chat deletePassword(Chat chat) {
+        chat.getUsers().stream().forEach(user -> {
+            deletePassword(user);
+        });
+
+        return chat;
+    }
 }
