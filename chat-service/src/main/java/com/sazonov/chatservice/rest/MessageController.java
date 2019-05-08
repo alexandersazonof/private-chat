@@ -10,6 +10,8 @@ import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.ChatService;
 import com.sazonov.chatservice.service.MessageService;
 import com.sazonov.chatservice.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,8 @@ import java.util.List;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
-@RequestMapping("/chats/{chatId}/messages")
+@RequestMapping("/api/v1/chats/{chatId}/messages")
+@Api(value = "Message management system", description = "Operation with messages")
 public class MessageController {
 
     @Autowired
@@ -39,6 +42,7 @@ public class MessageController {
 
 
     @GetMapping("")
+    @ApiOperation(value = "Get messages by chat id")
     public ResponseEntity getMessagesByChatId(@PathVariable Long chatId) throws RestException {
 
         Chat chat = chatService.findById(chatId);
@@ -62,6 +66,7 @@ public class MessageController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get message information by id")
     public ResponseEntity getMessageById(@PathVariable Long chatId,
                                          @PathVariable Long id) throws RestException {
 
@@ -81,6 +86,7 @@ public class MessageController {
     }
 
     @PostMapping("")
+    @ApiOperation(value = "Create message")
     public ResponseEntity createMessage(@PathVariable Long chatId,
                                         @RequestBody @Valid MessageDto messageDto) throws RestException {
 
@@ -107,6 +113,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete message by id")
     public ResponseEntity deleteMessageById(@PathVariable Long chatId,
                                             @PathVariable Long id) throws RestException {
 
@@ -124,6 +131,7 @@ public class MessageController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Edit message by id")
     public ResponseEntity editMessageById(@PathVariable Long chatId,
                                           @PathVariable Long id,
                                           @RequestBody @Valid MessageDto messageDto) throws RestException {

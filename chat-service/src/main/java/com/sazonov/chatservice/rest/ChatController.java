@@ -8,6 +8,9 @@ import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.ChatService;
 import com.sazonov.chatservice.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +24,9 @@ import java.util.stream.Collectors;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
-@RequestMapping("/chats")
+@RequestMapping("/api/v1/chats")
 @Slf4j
+@Api(value = "Chat management system", description = "Operation with chats")
 public class ChatController {
 
     @Autowired
@@ -37,7 +41,9 @@ public class ChatController {
 
 
     @GetMapping("")
-    public ResponseEntity getAllByUserId(@RequestParam(required = true) Long userId) throws RestException {
+    @ApiOperation(value = "Get chats of user")
+    public ResponseEntity getAllByUserId(
+            @ApiParam(value = "User id") @RequestParam(required = true) Long userId) throws RestException {
         log.info("Get information about chats by user id: " + userId.toString());
 
         securityUtil.userHasAccess(userId);
@@ -55,6 +61,7 @@ public class ChatController {
     }
 
     @PostMapping("")
+    @ApiOperation(value = "Create chat")
     public ResponseEntity createChat(@RequestBody @Valid ChatForm chatForm) throws RestException {
         log.info("Create new chat: " + chatForm);
 
@@ -84,6 +91,7 @@ public class ChatController {
 
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get information about chat by id")
     public ResponseEntity getChatById(@PathVariable Long id) throws RestException {
         log.info("Get information about chat by id: " + id.toString());
 
@@ -102,6 +110,7 @@ public class ChatController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete chat by id")
     public ResponseEntity deleteChatById(@PathVariable Long id) throws RestException {
         log.info("Delete chat by id: " + id.toString());
 
@@ -120,6 +129,7 @@ public class ChatController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Edit chat information by id")
     public ResponseEntity editChatById(@PathVariable Long id,
                                        @RequestBody @Valid ChatForm chatForm) throws RestException {
 
