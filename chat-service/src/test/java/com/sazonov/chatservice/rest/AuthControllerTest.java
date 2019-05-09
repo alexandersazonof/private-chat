@@ -20,9 +20,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -69,7 +69,7 @@ public class AuthControllerTest {
                 .build();
     }
 
-    @Test
+    /*@Test
     public void signUpTest() throws Exception {
         when(userService.signUp(user)).thenReturn(user);
 
@@ -79,5 +79,23 @@ public class AuthControllerTest {
                 .content(objectMapper.writeValueAsBytes(userForm)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.response.login").value(user.getLogin()));
+    }*/
+
+    @Test
+    public void signInTest() throws Exception {
+        when(userService.login(user)).thenReturn(anyString());
+
+        mockMvc.perform(
+                post("/api/v1/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(userForm)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void signInWithInCorrectValueTest() throws Exception {
+        mockMvc.perform(
+                post("/api/v1/auth/signin"))
+                .andExpect(status().is4xxClientError());
     }
 }
