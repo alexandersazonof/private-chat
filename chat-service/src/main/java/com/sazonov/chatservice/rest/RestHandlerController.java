@@ -29,7 +29,7 @@ public class RestHandlerController {
         return message("Invalid arguments", HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, NumberFormatException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap badRequest(Exception e) {
         log.warn(e.getMessage());

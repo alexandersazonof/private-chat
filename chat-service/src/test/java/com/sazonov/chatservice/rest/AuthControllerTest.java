@@ -69,17 +69,6 @@ public class AuthControllerTest {
                 .build();
     }
 
-    /*@Test
-    public void signUpTest() throws Exception {
-        when(userService.signUp(user)).thenReturn(user);
-
-        mockMvc.perform(
-                post("/auth/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userForm)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.response.login").value(user.getLogin()));
-    }*/
 
     @Test
     public void signInTest() throws Exception {
