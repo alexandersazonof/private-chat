@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.form.exception;
+package com.sazonov.chatservice.dto.exception;
 
 import com.sazonov.chatservice.rest.exception.RestException;
 

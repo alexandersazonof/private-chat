@@ -1,8 +1,8 @@
 package com.sazonov.chatservice.rest;
 
-import com.sazonov.chatservice.form.ChatForm;
+import com.sazonov.chatservice.dto.ChatDto;
 import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.model.ResponseMessage;
+import com.sazonov.chatservice.model.ApiMessage;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
@@ -54,7 +54,7 @@ public class ChatController {
         }).collect(Collectors.toList());
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                 .put("success", true)
                 .put("chats", chats)
         );
@@ -62,10 +62,10 @@ public class ChatController {
 
     @PostMapping("")
     @ApiOperation(value = "Create chat")
-    public ResponseEntity createChat(@RequestBody @Valid ChatForm chatForm) throws RestException {
-        log.info("Create new chat: " + chatForm);
+    public ResponseEntity createChat(@RequestBody @Valid ChatDto chatDto) throws RestException {
+        log.info("Create new chat: " + chatDto);
 
-        List<User> users = chatForm.getMembers().stream().map(value -> {
+        List<User> users = chatDto.getMembers().stream().map(value -> {
             try {
 
                 User user = userService.findById(value);
@@ -77,14 +77,14 @@ public class ChatController {
         }).collect(Collectors.toList());
 
         Chat chat = Chat.builder()
-                .name(chatForm.getName())
+                .name(chatDto.getName())
                 .users(users)
                 .build();
 
         chatService.save(chat);
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                 .put("success", true)
         );
     }
@@ -103,7 +103,7 @@ public class ChatController {
         securityUtil.userExistInChat(user ,chat);
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                         .put("success", true)
                         .put("chat", chat)
         );
@@ -123,7 +123,7 @@ public class ChatController {
         chatService.delete(chat);
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                         .put("success", true)
         );
     }
@@ -131,7 +131,7 @@ public class ChatController {
     @PutMapping("/{id}")
     @ApiOperation(value = "Edit chat information by id")
     public ResponseEntity editChatById(@PathVariable Long id,
-                                       @RequestBody @Valid ChatForm chatForm) throws RestException {
+                                       @RequestBody @Valid ChatDto chatDto) throws RestException {
 
         log.info("Edit chat data by chat id: " + id.toString());
 
@@ -141,14 +141,14 @@ public class ChatController {
         securityUtil.userExistInChat(user, chat);
 
         List<User> users = new ArrayList<>();
-        for (Long i :chatForm.getMembers()) {
+        for (Long i : chatDto.getMembers()) {
             users.add(userService.findById(i));
         }
 
 
         Chat updateChat = Chat.builder()
                 .id(id)
-                .name(chatForm.getName())
+                .name(chatDto.getName())
                 .users(users)
                 .build();
 
@@ -156,7 +156,7 @@ public class ChatController {
 
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                         .put("success", true)
         );
     }

@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.form;
+package com.sazonov.chatservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatForm {
+public class ChatDto {
 
     @NotBlank
     private String name;

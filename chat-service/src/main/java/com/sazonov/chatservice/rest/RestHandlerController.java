@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.rest;
 
-import com.sazonov.chatservice.form.exception.PasswordNotMatchException;
+import com.sazonov.chatservice.dto.exception.PasswordNotMatchException;
 import com.sazonov.chatservice.security.exception.AccessDeniedException;
 import com.sazonov.chatservice.service.exception.ChatNotFoundException;
 import com.sazonov.chatservice.service.exception.MessageNotFoundException;

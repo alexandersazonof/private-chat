@@ -1,7 +1,7 @@
 package com.sazonov.chatservice.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sazonov.chatservice.form.ChatForm;
+import com.sazonov.chatservice.dto.ChatDto;
 import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
@@ -55,7 +55,7 @@ public class ChatControllerTest {
     private WebApplicationContext webApplicationContext;
 
     private User user;
-    private ChatForm chatForm;
+    private ChatDto chatDto;
     private Chat chat;
     private List<Chat> chats;
     private ObjectMapper objectMapper;
@@ -74,14 +74,14 @@ public class ChatControllerTest {
                 .roles(Arrays.asList("ROLE_USER"))
                 .build();
 
-        chatForm = ChatForm.builder()
+        chatDto = ChatDto.builder()
                 .name("mychat")
                 .members(Arrays.asList(Long.valueOf(1), 1L))
         .build();
 
         chat = Chat.builder()
                 .id(1L)
-                .name(chatForm.getName())
+                .name(chatDto.getName())
                 .users(Arrays.asList(user))
                 .build();
 
@@ -123,7 +123,7 @@ public class ChatControllerTest {
         mockMvc.perform(
                 post("/api/v1/chats")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsBytes(chatForm)))
+                .content(objectMapper.writeValueAsBytes(chatDto)))
                 .andExpect(status().isOk());
     }
 

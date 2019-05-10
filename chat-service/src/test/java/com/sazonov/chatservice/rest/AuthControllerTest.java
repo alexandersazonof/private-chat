@@ -1,7 +1,7 @@
 package com.sazonov.chatservice.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sazonov.chatservice.form.UserForm;
+import com.sazonov.chatservice.dto.UserDto;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.service.impl.UserServiceImpl;
@@ -43,7 +43,7 @@ public class AuthControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    private UserForm userForm;
+    private UserDto userDto;
     private User user;
     private ObjectMapper objectMapper;
 
@@ -61,7 +61,7 @@ public class AuthControllerTest {
                 .roles(Arrays.asList("ROLE_USER"))
                 .build();
 
-        userForm =  UserForm.builder()
+        userDto =  UserDto.builder()
                 .login(user.getLogin())
                 .name(user.getName())
                 .password(user.getPassword())
@@ -77,7 +77,7 @@ public class AuthControllerTest {
         mockMvc.perform(
                 post("/api/v1/auth/signin")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userForm)))
+                .content(objectMapper.writeValueAsBytes(userDto)))
                 .andExpect(status().isOk());
     }
 

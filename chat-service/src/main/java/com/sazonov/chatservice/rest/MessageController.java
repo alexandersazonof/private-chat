@@ -3,7 +3,7 @@ package com.sazonov.chatservice.rest;
 import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.model.Message;
-import com.sazonov.chatservice.model.ResponseMessage;
+import com.sazonov.chatservice.model.ApiMessage;
 import com.sazonov.chatservice.model.User;
 import com.sazonov.chatservice.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
@@ -59,7 +59,7 @@ public class MessageController {
 
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                 .put("success", true)
                 .put("messages", messages)
         );
@@ -80,7 +80,7 @@ public class MessageController {
         securityUtil.deletePassword(message.getChat().getUsers());
 
 
-        return ok( ResponseMessage.builder()
+        return ok( ApiMessage.builder()
                 .put("success", true)
                 .put("messages", message));
     }
@@ -107,7 +107,7 @@ public class MessageController {
 
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                 .put("success", true)
         );
     }
@@ -125,7 +125,7 @@ public class MessageController {
         messageService.delete(message);
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                         .put("success", true)
         );
     }
@@ -153,7 +153,7 @@ public class MessageController {
         messageService.update(message);
 
         return ok(
-                ResponseMessage.builder()
+                ApiMessage.builder()
                         .put("success", true)
         );
     }

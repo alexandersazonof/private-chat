@@ -5,19 +5,19 @@ import lombok.Data;
 import java.util.HashMap;
 
 @Data
-public class ResponseMessage {
+public class ApiMessage {
 
     private HashMap response;
 
-    public ResponseMessage(){
+    public ApiMessage(){
         response = new HashMap();
     }
 
-    public static ResponseMessage builder(){
-        return new ResponseMessage();
+    public static ApiMessage builder(){
+        return new ApiMessage();
     }
 
-    public ResponseMessage put(Object key, Object value) {
+    public ApiMessage put(Object key, Object value) {
 
         response.put(key, value);
         return this;
