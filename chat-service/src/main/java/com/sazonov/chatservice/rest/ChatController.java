@@ -27,6 +27,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/chats")
 @Slf4j
 @Api(value = "Chat management system", description = "Operation with chats")
+@CrossOrigin(origins = "*")
 public class ChatController {
 
     @Autowired

@@ -20,7 +20,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/auth")
 @Slf4j
 @Api(value = "Authentication management system", description = "Operation for sign in and sign up users")
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin
 public class AuthController {
 
 
@@ -35,10 +35,13 @@ public class AuthController {
 
         String token = userService.login(user);
 
+        User userResponse = userService.findByLogin(user.getLogin());
+
         return ok(
                 ApiMessage.builder()
                 .put("success", "true")
                 .put("token", token)
+                .put("id", userResponse.getId())
         );
     }
 
