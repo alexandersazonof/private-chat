@@ -60,17 +60,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) throws RestException {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-
-
-        return user;
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
     public User findByLogin(String login) throws RestException {
-        User user = userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
-
-
-        return user;
+        return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }
