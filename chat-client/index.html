@@ -8,17 +8,19 @@
     <title>Chat</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
 </head>
 <body>
 <div id="general">
 
 </div>
-
 <script>
 
     $( document ).ready(function() {
@@ -67,6 +69,11 @@
                 Cookies.set("token", token);
                 checkToken();
             }
+        });
+
+        $('body').on('click', '#logout', function () {
+            Cookies.remove('token');
+            checkToken();
         })
     });
 
@@ -395,6 +402,8 @@
             "                        <div class=\"input-group-prepend\">\n" +
             "                            <span class=\"input-group-text search_btn\"><i class=\"fas fa-search\"></i></span>\n" +
             "                        </div>\n" +
+            "<a id='logout'> <i class=\"fas fa-sign-out-alt my-1 ml-3 h4\" id='my-icon'></i> </a>"+
+            "<a id='create-chat'><i class=\"fas fa-plus  my-1 ml-3 h4\"></i></a>"+
             "                    </div>\n" +
             "                </div>\n" +
             "                <div class=\"card-body contacts_body\">\n" +
