@@ -102,13 +102,17 @@ public class MessageController {
                 .chat(chatService.findById(chatId))
                 .build();
 
-        messageService.save(message);
+        message = messageService.save(message);
+
+        securityUtil.deletePassword(message.getUser());
+        securityUtil.deletePassword(message.getChat());
 
 
 
         return ok(
                 ApiMessage.builder()
                 .put("success", true)
+                .put("message", message)
         );
     }
 
