@@ -1,5 +1,5 @@
 // registration html code
-function getRegistrationPage() {
+export function getRegistrationPage() {
     $("#general").replaceWith('<div id="general">\n' +
         '    <div class="row my-5">\n' +
         '        <div class="col-md-4"></div>\n' +

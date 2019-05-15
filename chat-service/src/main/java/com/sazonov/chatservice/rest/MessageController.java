@@ -57,11 +57,14 @@ public class MessageController {
             securityUtil.deletePassword(message.getChat().getUsers());
         });
 
+        securityUtil.deletePassword(chat.getUsers());
+
 
         return ok(
                 ApiMessage.builder()
                 .put("success", true)
                 .put("messages", messages)
+                .put("chat", chat)
         );
     }
 

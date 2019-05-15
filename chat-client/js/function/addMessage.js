@@ -1,5 +1,6 @@
+import {drawIcon} from 'drawIcon';
 
-function addMessage(json) {
+export function addMessage(json) {
 
     var date = new Date(json.response.message.date);
 

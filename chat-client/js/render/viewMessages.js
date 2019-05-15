@@ -1,4 +1,6 @@
-function viewMessages(json) {
+import {drawIcon} from "../function/drawIcon";
+
+export function viewMessages(json) {
 
     var messages = json.response.messages;
     var id_array = [];

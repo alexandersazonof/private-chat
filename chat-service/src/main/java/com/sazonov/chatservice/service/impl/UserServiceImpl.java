@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -66,5 +68,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByLogin(String login) throws RestException {
         return userRepository.findByLogin(login).orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public List<User> findAll() throws RestException {
+        return userRepository.findAll();
     }
 }

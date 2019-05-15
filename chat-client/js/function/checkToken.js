@@ -1,4 +1,7 @@
-function checkToken() {
+import {chat} from "../render/viewChatList";
+import {getLoginPage} from "../render/viewLogin";
+
+export function checkToken() {
     var xhr = new XMLHttpRequest();
 
     var token = Cookies.get('token');

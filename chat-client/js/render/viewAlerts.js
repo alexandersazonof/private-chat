@@ -1,6 +1,6 @@
 
 // danger alert html code
-function dangerAlert(data) {
+export function dangerAlert(data) {
     $("<div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">\n" +
         "  <strong>"+ data + "</strong>\n" +
         "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
@@ -10,7 +10,7 @@ function dangerAlert(data) {
 }
 
 // success alert html code
-function successAlert(data) {
+export function successAlert(data) {
     $("<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\n" +
         "  <strong>"+ data + "</strong>\n" +
         "  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">\n" +
