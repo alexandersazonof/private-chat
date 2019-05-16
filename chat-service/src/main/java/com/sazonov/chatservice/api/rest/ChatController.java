@@ -1,10 +1,10 @@
-package com.sazonov.chatservice.rest;
+package com.sazonov.chatservice.api.rest;
 
 import com.sazonov.chatservice.dto.ChatDto;
-import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.model.ApiMessage;
-import com.sazonov.chatservice.model.User;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.domain.Chat;
+import com.sazonov.chatservice.domain.ApiMessage;
+import com.sazonov.chatservice.domain.User;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.ChatService;
 import com.sazonov.chatservice.service.UserService;

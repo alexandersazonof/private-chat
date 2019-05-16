@@ -1,4 +1,5 @@
 
+var interval;
 
 $( document ).ready(function() {
 
@@ -114,8 +115,26 @@ $( document ).ready(function() {
         checkToken();
     });
 
+    interval = setInterval(refreshMessages,3000);
+
 
 });
+
+
+
+
+function refreshMessages() {
+
+    var id = $("#ThisChatId").val();
+
+    if(id != undefined) {
+        getChatInfoForRefresh(id);
+
+        console.log("Wait");
+    }
+}
+
+
 
 function searchChats(value) {
     var xhr = new XMLHttpRequest();
@@ -521,6 +540,37 @@ function getChatInfo(id) {
 
                 var json = JSON.parse(xhr.responseText);
                 viewMessages(json);
+
+
+            }
+        }
+    };
+}
+
+function getChatInfoForRefresh(id) {
+    var xhr = new XMLHttpRequest();
+
+    var token = Cookies.get('token');
+    var url = 'http://10.6.103.13:8000/api/v1/chats/' + id + "/messages/";
+    xhr.open('GET', url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if(xhr.status != 200) {
+                //getLoginPage();
+
+                return false;
+            } else {
+                var json = JSON.parse(xhr.responseText);
+
+                console.log(json.response.messages.length);
+                general = renderMessage(json.response.messages);
+
+                $("#new-message").replaceWith(general);
+                drawIconMessage(json);
             }
         }
     };
@@ -755,8 +805,7 @@ function viewMessages(json) {
 
 
     } else {
-        var id_array = [];
-        var name_array = [];
+
 
         var general = "<div class=\"col-md-8 col-xl-6 chat\" id=\"message\">\n" +
             "                <div class=\"card\">\n" +
@@ -785,55 +834,12 @@ function viewMessages(json) {
             '  </div>\n' +
             '</div>' +
             "                        </div>\n" +
-            "                    </div>\n" +
-            "                    <div class=\"card-body msg_card_body\" id='new-message'>";
+            "                    </div>\n" ;
 
 
+        general += renderMessage(messages);
 
-
-        for (var i = 0; i < messages.length; i++) {
-            var temp = "";
-            var userId = localStorage.getItem("id");
-            var date = new Date(messages[i].date);
-            var value = messages[i].value ;
-            var id = messages[i].id;
-
-            id_array.push(messages[i].id);
-
-            name_array.push(messages[i].user.name.charAt(0));
-
-            if(messages[i].user.id != userId) {
-
-                temp += "<div class=\"d-flex justify-content-start mb-4\" id='message-" + messages[i].id +"'>\n" +
-                    "                            <div class=\"img_cont_msg\">\n" +
-                    "                                <canvas class='rounded-circle user_img_msg' id='message-photo-" +messages[i].id  + "'> </canvas>\n" +
-                    "                            </div>\n" +
-                    "                            <div class=\"msg_cotainer\">\n" +
-                    value +
-                    "                                <span class=\"msg_time\">" + date.toDateString() + "</span>\n" +
-                    "                            </div>\n" +
-                    "                        </div>";
-            } else {
-
-                temp += "<div class=\"d-flex justify-content-end mb-4\" id='message-" + messages[i].id +"'>\n" +
-                    "                <div class=\"msg_cotainer_send\" >\n" +
-                    "<div id='message-value-" + id +"'>" +
-                    value +
-                    "</div>" +
-                    "                    <span class=\"msg_time_send\">" + date.toDateString() + "</span>\n" +
-                    "                </div>\n" +
-                    "                <div class=\"img_cont_msg\">\n" +
-                    "                    <canvas class='rounded-circle user_img_msg' id='message-photo-" + messages[i].id  + "'> </canvas>\n" +
-                    "                </div>\n" +
-                    '<i class="fas fa-trash blackiconcolor my-2 ml-2" id="message-delete-' + id + '"></i>' +
-                    '<i class="fas fa-pen blackiconcolor my-2 ml-2" id="message-edit-' + id + '"></i>' +
-                    "            </div>";
-            }
-
-            general += temp;
-        }
-
-        general += "</div>\n" +
+        general += "</div>" +
             "        <div class=\"card-footer\" id='general-message'>\n" +
             "            <div class=\"input-group\">\n" +
             "                <div class=\"input-group-append\">\n" +
@@ -850,12 +856,66 @@ function viewMessages(json) {
 
         $("#message").replaceWith(general);
 
-        for(var i = 0;i<name_array.length;i++) {
-            drawIcon("message-photo-" + id_array[i], name_array[i]);
-        }
-        drawIcon("main-chat-photo", json.response.messages[0].chat.name.charAt(0));
+        drawIconMessage(json);
+
     }
 
+}
+
+function drawIconMessage(json) {
+
+    for(var i = 0;i<json.response.messages.length;i++) {
+        drawIcon("message-photo-" + json.response.messages[i].id, json.response.messages[i].user.name.charAt(0));
+    }
+    drawIcon("main-chat-photo", json.response.messages[0].chat.name.charAt(0));
+}
+
+function renderMessage(messages) {
+
+    var general =
+        "                    <div class=\"card-body msg_card_body\" id='new-message'>";
+
+    for (var i = 0; i < messages.length; i++) {
+        var temp = "";
+        var userId = localStorage.getItem("id");
+        var date = new Date(messages[i].date);
+        var value = messages[i].value ;
+        var id = messages[i].id;
+
+
+        if(messages[i].user.id != userId) {
+
+            temp += "<div class=\"d-flex justify-content-start mb-4\" id='message-" + messages[i].id +"'>\n" +
+                "                            <div class=\"img_cont_msg\">\n" +
+                "                                <canvas class='rounded-circle user_img_msg' id='message-photo-" +messages[i].id  + "'> </canvas>\n" +
+                "                            </div>\n" +
+                "                            <div class=\"msg_cotainer\">\n" +
+                value +
+                "                                <span class=\"msg_time\">" + date.toDateString() + "</span>\n" +
+                "                            </div>\n" +
+                "                        </div>";
+        } else {
+
+            temp += "<div class=\"d-flex justify-content-end mb-4\" id='message-" + messages[i].id +"'>\n" +
+                "                <div class=\"msg_cotainer_send\" >\n" +
+                "<div id='message-value-" + id +"'>" +
+                value +
+                "</div>" +
+                "                    <span class=\"msg_time_send\">" + date.toDateString() + "</span>\n" +
+                "                </div>\n" +
+                "                <div class=\"img_cont_msg\">\n" +
+                "                    <canvas class='rounded-circle user_img_msg' id='message-photo-" + messages[i].id  + "'> </canvas>\n" +
+                "                </div>\n" +
+                '<i class="fas fa-trash blackiconcolor my-2 ml-2" id="message-delete-' + id + '"></i>' +
+                '<i class="fas fa-pen blackiconcolor my-2 ml-2" id="message-edit-' + id + '"></i>' +
+                "            </div>";
+        }
+
+        general += temp ;
+    }
+
+
+    return general;
 }
 
 function getRegistrationPage() {

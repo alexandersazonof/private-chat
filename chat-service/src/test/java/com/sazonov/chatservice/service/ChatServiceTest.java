@@ -1,9 +1,9 @@
 package com.sazonov.chatservice.service;
 
-import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.Chat;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.repository.ChatRepository;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.impl.ChatServiceImpl;
 import org.junit.Before;

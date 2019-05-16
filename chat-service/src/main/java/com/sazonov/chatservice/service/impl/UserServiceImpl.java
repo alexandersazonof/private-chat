@@ -1,8 +1,8 @@
 package com.sazonov.chatservice.service.impl;
 
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.repository.UserRepository;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.service.UserService;
 import com.sazonov.chatservice.service.exception.UserExistsException;

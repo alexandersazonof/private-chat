@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.model;
+package com.sazonov.chatservice.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,24 +6,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "chats")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
 
-    @ManyToMany
-    private List<User> users;
+    private String value;
+    private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-
+    @ManyToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
 }

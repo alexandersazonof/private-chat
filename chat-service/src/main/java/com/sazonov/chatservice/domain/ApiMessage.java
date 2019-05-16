@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.model;
+package com.sazonov.chatservice.domain;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.security.provider;
 
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.security.exception.InvalidJwtAuthenticationException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,7 @@
 package com.sazonov.chatservice.service;
 
-import com.sazonov.chatservice.model.Message;
-import com.sazonov.chatservice.rest.exception.RestException;
-import com.sazonov.chatservice.service.exception.MessageNotFoundException;
+import com.sazonov.chatservice.domain.Message;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.rest.config;
+package com.sazonov.chatservice.api.rest.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

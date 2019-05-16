@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.docs;
+package com.sazonov.chatservice.api.docs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sazonov.chatservice.rest"))
+                .apis(RequestHandlerSelectors.basePackage("com.sazonov.chatservice.api.rest"))
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiEndPointsInfo());
     }

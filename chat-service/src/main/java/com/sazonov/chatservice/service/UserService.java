@@ -1,7 +1,7 @@
 package com.sazonov.chatservice.service;
 
-import com.sazonov.chatservice.model.User;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.domain.User;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 
 import java.util.List;
 

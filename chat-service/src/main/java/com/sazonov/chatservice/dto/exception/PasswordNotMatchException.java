@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.dto.exception;
 
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class PasswordNotMatchException extends RestException {
 

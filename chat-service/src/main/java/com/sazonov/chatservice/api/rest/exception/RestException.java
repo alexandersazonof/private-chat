@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.rest.exception;
+package com.sazonov.chatservice.api.rest.exception;
 
 public class RestException extends Exception {
 

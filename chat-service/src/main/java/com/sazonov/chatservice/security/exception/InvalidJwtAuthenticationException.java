@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.security.exception;
 
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class InvalidJwtAuthenticationException extends RestException {
 

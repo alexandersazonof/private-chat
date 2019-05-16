@@ -1,8 +1,8 @@
-package com.sazonov.chatservice.rest;
+package com.sazonov.chatservice.api.rest;
 
-import com.sazonov.chatservice.model.ApiMessage;
-import com.sazonov.chatservice.model.User;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.domain.ApiMessage;
+import com.sazonov.chatservice.domain.User;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;

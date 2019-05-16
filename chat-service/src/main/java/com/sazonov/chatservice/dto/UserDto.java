@@ -1,7 +1,7 @@
 package com.sazonov.chatservice.dto;
 
 import com.sazonov.chatservice.dto.exception.PasswordNotMatchException;
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

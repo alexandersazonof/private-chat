@@ -1,9 +1,9 @@
 package com.sazonov.chatservice.security.util;
 
-import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.model.Message;
-import com.sazonov.chatservice.model.User;
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.domain.Chat;
+import com.sazonov.chatservice.domain.Message;
+import com.sazonov.chatservice.domain.User;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.exception.AccessDeniedException;
 import com.sazonov.chatservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

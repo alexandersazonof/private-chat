@@ -1,11 +1,11 @@
-package com.sazonov.chatservice.rest;
+package com.sazonov.chatservice.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sazonov.chatservice.dto.MessageDto;
+import com.sazonov.chatservice.domain.Chat;
+import com.sazonov.chatservice.domain.Message;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.dto.ChatDto;
-import com.sazonov.chatservice.model.Chat;
-import com.sazonov.chatservice.model.Message;
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.impl.ChatServiceImpl;
@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -152,16 +151,6 @@ public class MessageControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    public void createMessageWithCorrectValue() throws Exception {
-        when(chatService.findById(chat.getId())).thenReturn(chat);
-
-        mockMvc.perform(
-                post(String.format("/api/v1/chats/%d/messages", chat.getId()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(messageDto)))
-                .andExpect(status().isOk());
-    }
 
     @Test
     public void createMessageWithoutValue() throws Exception {

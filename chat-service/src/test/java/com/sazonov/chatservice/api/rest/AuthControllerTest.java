@@ -1,8 +1,8 @@
-package com.sazonov.chatservice.rest;
+package com.sazonov.chatservice.api.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sazonov.chatservice.dto.UserDto;
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.service.impl.UserServiceImpl;
 import org.junit.Before;
@@ -73,6 +73,7 @@ public class AuthControllerTest {
     @Test
     public void signInTest() throws Exception {
         when(userService.login(user)).thenReturn(anyString());
+        when(userService.findByLogin(user.getLogin())).thenReturn(user);
 
         mockMvc.perform(
                 post("/api/v1/auth/signin")

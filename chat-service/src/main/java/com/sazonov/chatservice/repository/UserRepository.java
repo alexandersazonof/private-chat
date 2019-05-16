@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.repository;
 
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

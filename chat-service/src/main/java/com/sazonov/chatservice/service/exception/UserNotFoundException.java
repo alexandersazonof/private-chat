@@ -1,6 +1,6 @@
 package com.sazonov.chatservice.service.exception;
 
-import com.sazonov.chatservice.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class UserNotFoundException extends RestException {
 

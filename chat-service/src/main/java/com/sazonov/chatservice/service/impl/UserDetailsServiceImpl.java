@@ -1,7 +1,7 @@
 package com.sazonov.chatservice.service.impl;
 
-import com.sazonov.chatservice.model.CurrentUser;
-import com.sazonov.chatservice.model.User;
+import com.sazonov.chatservice.domain.CurrentUser;
+import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

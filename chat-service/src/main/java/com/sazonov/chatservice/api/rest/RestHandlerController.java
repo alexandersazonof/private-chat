@@ -1,4 +1,4 @@
-package com.sazonov.chatservice.rest;
+package com.sazonov.chatservice.api.rest;
 
 import com.sazonov.chatservice.dto.exception.PasswordNotMatchException;
 import com.sazonov.chatservice.security.exception.AccessDeniedException;
