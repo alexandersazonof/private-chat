@@ -13,4 +13,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     @Query("select c from Chat c join c.users u where u.id = ?1")
     List<Chat> findByUserId(Long userId);
 
+    @Query("select c from Chat  c join c.users u where u.id = :userId and upper(c.name) like CONCAT('%',UPPER(:value),'%') ")
+    List<Chat> findByUserId(Long userId, String value);
+
 }

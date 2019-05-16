@@ -3,7 +3,6 @@ package com.sazonov.chatservice.service.impl;
 import com.sazonov.chatservice.model.Chat;
 import com.sazonov.chatservice.repository.ChatRepository;
 import com.sazonov.chatservice.rest.exception.RestException;
-import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.ChatService;
 import com.sazonov.chatservice.service.exception.ChatNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Autowired
     private ChatRepository chatRepository;
-
-    @Autowired
-    private SecurityUtil securityUtil;
 
 
     @Override
@@ -46,5 +42,13 @@ public class ChatServiceImpl implements ChatService {
     public Chat findById(Long id) throws RestException {
         return chatRepository.findById(id).orElseThrow(() -> new ChatNotFoundException("Chat don't found"));
 
+    }
+
+    @Override
+    public List<Chat> findByUserId(Long userId, String value) {
+        if (value == null || value.isEmpty()) {
+            return chatRepository.findByUserId(userId);
+        }
+        return chatRepository.findByUserId(userId, value);
     }
 }

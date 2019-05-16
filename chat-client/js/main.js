@@ -103,7 +103,111 @@ $( document ).ready(function() {
         createChat(name, members);
 
     });
+
+    $('body').on('click', '#search-action', function () {
+       var value = $('#search-value').val();
+
+       searchChats(value);
+    });
+
+    $('body').on('click', '#cancel-search', function () {
+        checkToken();
+    });
+
+
 });
+
+function searchChats(value) {
+    var xhr = new XMLHttpRequest();
+
+    var token = Cookies.get('token');
+    var id = localStorage.getItem("id");
+    var url = 'http://10.6.103.13:8000/api/v1/chats';
+    var param = '?userId=' + id + "&value=" + value;
+
+    xhr.open('GET', url + param, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if(xhr.status != 200) {
+                getLoginPage();
+                return false;
+            } else {
+
+
+                var json = JSON.parse(xhr.responseText);
+                searchChatsViews(json, value);
+            }
+        }
+    };
+}
+
+function searchChatsViews(json, value) {
+    var chat_li = "";
+    var id_array = [];
+    var name_array = [];
+
+    for (var i = 0; i < json.response.chats.length; i++) {
+        var name = json.response.chats[i].name;
+        var id = json.response.chats[i].id;
+
+        id_array.push(id);
+        name_array.push(name.charAt(0));
+
+        var li = "<li id='chat_li'>\n" +
+            "                            <div class=\"d-flex bd-highlight\">\n" +
+            "                                <div class=\"img_cont\">\n" +
+            "<canvas class='rounded-circle user_img' id='chat-" + id + "'></canvas> " +
+            "                                </div>\n" +
+            "                                <div class=\"user_info\">\n" +
+            "                                    <span class='chatName'>" + name + "</span>\n" +
+            "<input type='hidden' class='chatId' value=' " + id + "'>" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                        </li>";
+
+        chat_li += li;
+    }
+
+
+    $("#general").replaceWith("<div id=\"general\">\n" +
+        "    <div class=\"container-fluid h-100\">\n" +
+        "        <div class=\"row justify-content-center h-100\">\n" +
+        "            <div class=\"col-md-4 col-xl-3 chat\"><div class=\"card mb-sm-3 mb-md-0 contacts_card\">\n" +
+        "                <div class=\"card-header\">\n" +
+        "                    <div class=\"input-group\">\n" +
+        "                        <input value='" + value + "' id='search-value' type=\"text\" placeholder=\"Search...\" name=\"\" class=\"form-control search\">\n" +
+        "                        <div class=\"input-group-prepend\">\n" +
+        "                            <span class=\"input-group-text search_btn\" >" +
+        "<i class=\"fas fa-search\" id='search-action' ></i>" +
+        "<i class=\"fas fa-times ml-2 \" id='cancel-search'></i>" +
+        "</span>\n" +
+        "                        </div>\n" +
+        "<a id='logout'> <i class=\"fas fa-sign-out-alt my-1 ml-3 h4\" id='my-icon' style=\"color:#DDDDDD;\"></i> </a>" +
+        "<a id='create-chat'><i class=\"fas fa-plus  my-1 ml-3 h4\" style=\"color:#DDDDDD;\"></i></a>" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"card-body contacts_body\">\n" +
+        "                    <ui class=\"contacts\">\n" +
+        chat_li +
+        "                    </ui>\n" +
+        "                </div>\n" +
+        "                <div class=\"card-footer\"></div>\n" +
+        "            </div></div>\n" +
+        "            <div id=\"message\">\n" +
+
+        "            </div>\n" +
+        "        </div>\n" +
+        "    </div>\n" +
+        "</div>");
+
+    for (var i = 0; i < id_array.length; i++) {
+        drawIcon("chat-" + id_array[i], name_array[i]);
+    }
+}
 
 function updateMessage(value, chatId, messageId) {
     var token = Cookies.get('token');
@@ -543,9 +647,9 @@ function chat(json) {
         "            <div class=\"col-md-4 col-xl-3 chat\"><div class=\"card mb-sm-3 mb-md-0 contacts_card\">\n" +
         "                <div class=\"card-header\">\n" +
         "                    <div class=\"input-group\">\n" +
-        "                        <input type=\"text\" placeholder=\"Search...\" name=\"\" class=\"form-control search\">\n" +
+        "                        <input id='search-value' type=\"text\" placeholder=\"Search...\" name=\"\" class=\"form-control search\">\n" +
         "                        <div class=\"input-group-prepend\">\n" +
-        "                            <span class=\"input-group-text search_btn\"><i class=\"fas fa-search\"></i></span>\n" +
+        "                            <span class=\"input-group-text search_btn\" id='search-action'><i class=\"fas fa-search\" ></i></span>\n" +
         "                        </div>\n" +
         "<a id='logout'> <i class=\"fas fa-sign-out-alt my-1 ml-3 h4\" id='my-icon' style=\"color:#DDDDDD;\"></i> </a>" +
         "<a id='create-chat'><i class=\"fas fa-plus  my-1 ml-3 h4\" style=\"color:#DDDDDD;\"></i></a>" +
@@ -593,6 +697,13 @@ function getLoginPage() {
 function viewMessages(json) {
 
     var messages = json.response.messages;
+    var jsonUsers = json.response.chat.users;
+
+    var users = '';
+
+    for (var i = 0;i<jsonUsers.length;i++) {
+        users += '<p class="dropdown-item" >' + jsonUsers[i].name +'</p>\n'
+    }
 
     if (messages.length == 0) {
         var general = "<div class=\"col-md-8 col-xl-6 chat\" id=\"message\">\n" +
@@ -606,12 +717,21 @@ function viewMessages(json) {
             "                            <div class=\"user_info\">\n" +
             "                                <span>"+ json.response.chat.name +"</span>\n" +
             "<input type=\"hidden\" id=\"ThisChatId\" value='" + json.response.chat.id +"'>" +
-            "                                <p>1767 Messages</p>\n" +
+            "                                <p>" + messages.length + " Messages</p>\n" +
             "                            </div>\n" +
             "                            <div class=\"video_cam\">\n" +
             "                                <span><i class=\"fas fa-video\"></i></span>\n" +
             "                                <span><i class=\"fas fa-phone\"></i></span>\n" +
             "                            </div>\n" +
+            '<div class="dropdown">\n' +
+            '  <a class="h4" id="dropdownMenuLink" data-toggle="dropdown"  aria-expanded="false">\n' +
+            '<i class="fas fa-users blackiconcolor my-2"></i>'+
+            '  </a>\n' +
+            '\n' +
+            '  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n' +
+            users +
+            '  </div>\n' +
+            '</div>' +
             "                        </div>\n" +
             "                    </div>\n" +
             "                    <div class=\"card-body msg_card_body\" id='new-message'>"+
@@ -649,12 +769,21 @@ function viewMessages(json) {
             "                            <div class=\"user_info\">\n" +
             "                                <span>"+ json.response.messages[0].chat.name +"</span>\n" +
             "<input type=\"hidden\" id=\"ThisChatId\" value='" + messages[0].chat.id +"'>" +
-            "                                <p>1767 Messages</p>\n" +
+            "                                <p>" + messages.length + " Messages</p>\n" +
             "                            </div>\n" +
             "                            <div class=\"video_cam\">\n" +
             "                                <span><i class=\"fas fa-video\" ></i></span>\n" +
             "                                <span><i class=\"fas fa-phone\"></i></span>\n" +
             "                            </div>\n" +
+            '<div class="dropdown">\n' +
+            '  <a class="h4" id="dropdownMenuLink" data-toggle="dropdown"  aria-expanded="false">\n' +
+            '<i class="fas fa-users blackiconcolor my-2"></i>'+
+            '  </a>\n' +
+            '\n' +
+            '  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\n' +
+            users +
+            '  </div>\n' +
+            '</div>' +
             "                        </div>\n" +
             "                    </div>\n" +
             "                    <div class=\"card-body msg_card_body\" id='new-message'>";

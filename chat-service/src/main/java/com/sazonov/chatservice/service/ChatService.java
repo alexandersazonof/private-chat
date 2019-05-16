@@ -12,4 +12,5 @@ public interface ChatService {
     Chat save(Chat chat);
     Chat update(Chat chat);
     Chat findById(Long id) throws RestException;
+    List<Chat> findByUserId(Long userId, String value);
 }

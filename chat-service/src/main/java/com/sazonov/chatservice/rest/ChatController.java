@@ -44,12 +44,14 @@ public class ChatController {
     @GetMapping("")
     @ApiOperation(value = "Get chats of user")
     public ResponseEntity getAllByUserId(
-            @ApiParam(value = "User id") @RequestParam(required = true) Long userId) throws RestException {
+            @ApiParam(value = "User id") @RequestParam Long userId,
+            @RequestParam(required = false) String value) throws RestException {
+
         log.info("Get information about chats by user id: " + userId.toString());
 
         securityUtil.userHasAccess(userId);
 
-        List<Chat> chats = chatService.findByUserId(userId).stream().map(chat -> {
+        List<Chat> chats = chatService.findByUserId(userId, value).stream().map(chat -> {
              securityUtil.deletePassword(chat.getUsers());
              return chat;
         }).collect(Collectors.toList());
