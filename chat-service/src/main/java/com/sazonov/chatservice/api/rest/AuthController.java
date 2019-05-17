@@ -23,7 +23,6 @@ import static org.springframework.http.ResponseEntity.ok;
 @CrossOrigin
 public class AuthController {
 
-
     @Autowired
     private UserService userService;
 

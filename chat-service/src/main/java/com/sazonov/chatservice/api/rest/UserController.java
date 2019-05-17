@@ -5,6 +5,8 @@ import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/users")
 @Slf4j
+@Api(value = "User management system", description = "Operation with user")
 public class UserController {
 
     @Autowired
@@ -29,6 +32,7 @@ public class UserController {
     private SecurityUtil securityUtil;
 
     @GetMapping("")
+    @ApiOperation(value = "Get list of users")
     public ResponseEntity getAllUsers() throws RestException {
 
         User mainUser = securityUtil.getUserFromSecurityContext();

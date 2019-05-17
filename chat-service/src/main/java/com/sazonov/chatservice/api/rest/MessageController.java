@@ -88,7 +88,7 @@ public class MessageController {
                 .put("messages", message));
     }
 
-    @PostMapping("")
+    @PostMapping
     @ApiOperation(value = "Create message")
     public ResponseEntity createMessage(@PathVariable Long chatId,
                                         @RequestBody @Valid MessageDto messageDto) throws RestException {

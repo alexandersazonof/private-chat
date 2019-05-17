@@ -18,10 +18,7 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Override
-    public List<Chat> findByUserId(Long id) {
-
-        return chatRepository.findByUserId(id);
-    }
+    public List<Chat> findByUserId(Long id) { return chatRepository.findByUserId(id); }
 
     @Override
     public void delete(Chat chat) {
