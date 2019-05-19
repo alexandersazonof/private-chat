@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
     private UserRepository userRepository;
 
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Override
     public User signUp(User user) throws RestException {
@@ -51,9 +53,8 @@ public class UserServiceImpl implements UserService {
 
             String login = user.getLogin();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, user.getPassword()));
-            String token = jwtTokenProvider.createToken(user, userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("Username " + login + "not found")).getRoles());
+            return jwtTokenProvider.createToken(user, userRepository.findByLogin(login).orElseThrow(() -> new UsernameNotFoundException("Username " + login + "not found")).getRoles());
 
-            return token;
 
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied");

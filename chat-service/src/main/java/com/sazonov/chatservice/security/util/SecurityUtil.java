@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.security.util;
 
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.domain.Message;
 import com.sazonov.chatservice.domain.User;
@@ -15,8 +16,10 @@ import java.util.List;
 @Component
 public class SecurityUtil {
 
+
     @Autowired
     private UserService userService;
+
 
     public boolean userExistsInChats(User user, List<Chat> chats) throws AccessDeniedException {
 
@@ -35,7 +38,7 @@ public class SecurityUtil {
         }
 
         if (countChats == 0) {
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
 
         return true;
@@ -53,7 +56,7 @@ public class SecurityUtil {
         }
 
         if (countChats == 0) {
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
 
         return true;
@@ -71,7 +74,7 @@ public class SecurityUtil {
     public boolean userHasAccess(Long id) throws RestException {
 
         if (id != getUserFromSecurityContext().getId()) {
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
 
         return true;
@@ -80,7 +83,7 @@ public class SecurityUtil {
     public boolean userHasAccessToMessage(User user, Message message) throws AccessDeniedException {
 
         if(user.getId() != message.getUser().getId()) {
-            throw new AccessDeniedException("Access denied");
+            throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
 
         return true;

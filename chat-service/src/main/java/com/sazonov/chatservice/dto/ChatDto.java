@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatDto {
 
+
     @NotBlank
     private String name;
 

@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.api.rest;
 
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.domain.Message;
@@ -24,8 +25,9 @@ import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/v1/chats/{chatId}/messages")
-@Api(value = "Message management system", description = "Operation with messages")
+@Api(value = "Message management system")
 public class MessageController {
+
 
     @Autowired
     private MessageService messageService;
@@ -40,8 +42,7 @@ public class MessageController {
     private SecurityUtil securityUtil;
 
 
-
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "Get messages by chat id")
     public ResponseEntity getMessagesByChatId(@PathVariable Long chatId) throws RestException {
 
@@ -62,7 +63,7 @@ public class MessageController {
 
         return ok(
                 ApiMessage.builder()
-                .put("success", true)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
                 .put("messages", messages)
                 .put("chat", chat)
         );
@@ -84,7 +85,7 @@ public class MessageController {
 
 
         return ok( ApiMessage.builder()
-                .put("success", true)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
                 .put("messages", message));
     }
 
@@ -114,7 +115,7 @@ public class MessageController {
 
         return ok(
                 ApiMessage.builder()
-                .put("success", true)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
                 .put("message", message)
         );
     }
@@ -133,7 +134,7 @@ public class MessageController {
 
         return ok(
                 ApiMessage.builder()
-                        .put("success", true)
+                        .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 
@@ -142,7 +143,6 @@ public class MessageController {
     public ResponseEntity editMessageById(@PathVariable Long chatId,
                                           @PathVariable Long id,
                                           @RequestBody @Valid MessageDto messageDto) throws RestException {
-
 
         User user = securityUtil.getUserFromSecurityContext();
         Message messageCheck = messageService.findById(id);
@@ -161,7 +161,7 @@ public class MessageController {
 
         return ok(
                 ApiMessage.builder()
-                        .put("success", true)
+                        .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 }

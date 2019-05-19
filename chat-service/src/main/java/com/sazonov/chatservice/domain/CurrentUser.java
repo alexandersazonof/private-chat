@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class CurrentUser implements UserDetails {
 
+
     private Long id;
 
     private String login;
@@ -26,13 +27,13 @@ public class CurrentUser implements UserDetails {
     private String name;
     private List<String> roles;
 
+
     public CurrentUser(User user) {
         id = user.getId();
         login = user.getLogin();
         password = user.getPassword();
         roles = user.getRoles();
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

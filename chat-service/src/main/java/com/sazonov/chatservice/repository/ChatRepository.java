@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
+
     @Query("select c from Chat c join c.users u where u.id = ?1")
     List<Chat> findByUserId(Long userId);
 

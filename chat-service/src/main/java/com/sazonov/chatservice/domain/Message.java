@@ -15,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Message {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

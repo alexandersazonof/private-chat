@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
+
     @Query("select m from Message m where m.chat.id = ?1")
     List<Message> findByChatId(Long chatId);
 }

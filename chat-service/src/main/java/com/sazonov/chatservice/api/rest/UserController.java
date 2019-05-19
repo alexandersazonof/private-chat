@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.api.rest;
 
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.domain.ApiMessage;
 import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.api.rest.exception.RestException;
@@ -22,8 +23,9 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/users")
 @Slf4j
-@Api(value = "User management system", description = "Operation with user")
+@Api(value = "User management system")
 public class UserController {
+
 
     @Autowired
     private UserService userService;
@@ -31,7 +33,8 @@ public class UserController {
     @Autowired
     private SecurityUtil securityUtil;
 
-    @GetMapping("")
+
+    @GetMapping
     @ApiOperation(value = "Get list of users")
     public ResponseEntity getAllUsers() throws RestException {
 
@@ -44,8 +47,8 @@ public class UserController {
 
         return ok(
                 ApiMessage.builder()
-                .put("success", true)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
                 .put("users", users)
         );
-    };
+    }
 }

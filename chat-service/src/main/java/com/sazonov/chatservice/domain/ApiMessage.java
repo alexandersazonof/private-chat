@@ -7,9 +7,11 @@ import java.util.HashMap;
 @Data
 public class ApiMessage {
 
+
     private HashMap response;
 
-    public ApiMessage(){
+
+    private ApiMessage(){
         response = new HashMap();
     }
 

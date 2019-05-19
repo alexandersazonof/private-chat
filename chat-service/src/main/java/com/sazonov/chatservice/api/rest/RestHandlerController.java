@@ -16,82 +16,83 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
 public class RestHandlerController {
 
+
     @ExceptionHandler({PasswordNotMatchException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public HashMap incorrectArguments(Exception exception) {
+    public Map incorrectArguments(Exception exception) {
         log.warn(exception.getMessage());
 
-        return message("Invalid arguments", HttpStatus.NOT_ACCEPTABLE);
+        return message("Invalid arguments");
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class, NumberFormatException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap badRequest(Exception e) {
+    public Map badRequest(Exception e) {
         log.warn(e.getMessage());
 
-        return message("Incorrect value", HttpStatus.BAD_REQUEST);
+        return message("Incorrect value");
     }
 
     @ExceptionHandler({UserExistsException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap userExists(Exception e) {
+    public Map userExists(Exception e) {
         log.warn(e.getMessage());
 
-        return message("User exists", HttpStatus.BAD_REQUEST);
+        return message("User exists");
     }
 
     @ExceptionHandler(ChatNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public HashMap chatNotFound(Exception e) {
+    public Map chatNotFound(Exception e) {
         log.warn(e.getMessage());
 
-        return message("Chat not found", HttpStatus.NOT_FOUND);
+        return message("Chat not found");
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap missingParameters(MissingServletRequestParameterException e) {
+    public Map missingParameters(MissingServletRequestParameterException e) {
         log.warn(e.getMessage());
 
-        return message("Missing parameters: " + e.getParameterName(), HttpStatus.BAD_REQUEST);
+        return message("Missing parameters: " + e.getParameterName());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public HashMap accessDenied(Exception e) {
+    public Map accessDenied(Exception e) {
         log.warn(e.getMessage());
 
-        return message("Access denied", HttpStatus.FORBIDDEN);
+        return message("Access denied");
     }
 
     @ExceptionHandler(MessageNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public HashMap messageNotFound(Exception e) {
+    public Map messageNotFound(Exception e) {
         log.warn(e.getMessage());
 
-        return message("Message not found", HttpStatus.NOT_FOUND);
+        return message("Message not found");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap incorrectConvertFromJson(HttpMessageNotReadableException e) {
+    public Map incorrectConvertFromJson(HttpMessageNotReadableException e) {
         log.warn(e.getMessage());
 
-        return message("Incorrect arguments", HttpStatus.BAD_REQUEST);
+        return message("Incorrect arguments");
     }
 
 
 
-    private HashMap message(String message, HttpStatus code) {
-        HashMap model = new HashMap();
+    private Map message(String message) {
+        Map model = new HashMap();
 
         model.put("message", message);
-        model.put("code", code.value());
 
         return model;
     }

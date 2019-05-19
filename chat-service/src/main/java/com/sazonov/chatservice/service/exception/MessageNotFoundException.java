@@ -4,6 +4,7 @@ import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class MessageNotFoundException extends RestException {
 
+
     public MessageNotFoundException(){
         super();
     }

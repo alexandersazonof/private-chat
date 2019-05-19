@@ -13,9 +13,14 @@ import java.util.List;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    @Autowired
+
     private ChatRepository chatRepository;
 
+
+    @Autowired
+    public ChatServiceImpl(ChatRepository chatRepository) {
+        this.chatRepository = chatRepository;
+    }
 
     @Override
     public List<Chat> findByUserId(Long id) { return chatRepository.findByUserId(id); }

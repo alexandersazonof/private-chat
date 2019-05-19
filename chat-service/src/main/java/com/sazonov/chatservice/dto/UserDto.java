@@ -16,6 +16,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class UserDto {
 
+
     @NotBlank
     private String login;
 
@@ -27,6 +28,7 @@ public class UserDto {
 
     @NotBlank
     private String name;
+
 
     public User from() throws PasswordNotMatchException {
 

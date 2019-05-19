@@ -19,9 +19,10 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/auth")
 @Slf4j
-@Api(value = "Authentication management system", description = "Operation for sign in and sign up users")
+@Api(value = "Authentication management system")
 @CrossOrigin
 public class AuthController {
+
 
     @Autowired
     private UserService userService;

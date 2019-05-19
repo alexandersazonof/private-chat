@@ -18,12 +18,13 @@ import java.util.HashMap;
 @Slf4j
 public class JwtTokenFilter extends GenericFilter {
 
+
     private JwtTokenProvider jwtTokenProvider;
+
 
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -53,7 +54,6 @@ public class JwtTokenFilter extends GenericFilter {
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
 
     public String convertObjectToJson(Object object) throws JsonProcessingException {
         if (object == null) {

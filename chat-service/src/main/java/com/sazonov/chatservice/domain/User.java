@@ -18,14 +18,16 @@ import java.util.List;
 @AllArgsConstructor
 public class User {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String login;
-    private String password;
-    private String name;
 
+    private String password;
+
+    private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

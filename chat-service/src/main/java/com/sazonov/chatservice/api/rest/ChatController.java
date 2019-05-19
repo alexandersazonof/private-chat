@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.api.rest;
 
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.dto.ChatDto;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.domain.ApiMessage;
@@ -26,9 +27,10 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("/api/v1/chats")
 @Slf4j
-@Api(value = "Chat management system", description = "Operation with chats")
+@Api(value = "Chat management system")
 @CrossOrigin(origins = "*")
 public class ChatController {
+
 
     @Autowired
     private ChatService chatService;
@@ -40,8 +42,7 @@ public class ChatController {
     private SecurityUtil securityUtil;
 
 
-
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "Get chats of user")
     public ResponseEntity getAllByUserId(
             @ApiParam(value = "User id") @RequestParam Long userId,
@@ -58,21 +59,19 @@ public class ChatController {
 
         return ok(
                 ApiMessage.builder()
-                .put("success", true)
                 .put("chats", chats)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 
-    @PostMapping("")
+    @PostMapping
     @ApiOperation(value = "Create chat")
-    public ResponseEntity createChat(@RequestBody @Valid ChatDto chatDto) throws RestException {
+    public ResponseEntity createChat(@RequestBody @Valid ChatDto chatDto) {
         log.info("Create new chat: " + chatDto);
 
         List<User> users = chatDto.getMembers().stream().map(value -> {
             try {
-
-                User user = userService.findById(value);
-                return user;
+                return userService.findById(value);
             } catch (RestException e) {
                 log.warn("Can not throws exception");
                 return new User();
@@ -88,7 +87,7 @@ public class ChatController {
 
         return ok(
                 ApiMessage.builder()
-                .put("success", true)
+                .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 
@@ -107,7 +106,7 @@ public class ChatController {
 
         return ok(
                 ApiMessage.builder()
-                        .put("success", true)
+                        .put(MessageResponse.RESPONSE_SUCCESS, true)
                         .put("chat", chat)
         );
     }
@@ -127,7 +126,7 @@ public class ChatController {
 
         return ok(
                 ApiMessage.builder()
-                        .put("success", true)
+                        .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 
@@ -160,7 +159,7 @@ public class ChatController {
 
         return ok(
                 ApiMessage.builder()
-                        .put("success", true)
+                        .put(MessageResponse.RESPONSE_SUCCESS, true)
         );
     }
 }

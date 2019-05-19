@@ -21,6 +21,7 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
