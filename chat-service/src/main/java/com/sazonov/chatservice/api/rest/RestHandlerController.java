@@ -24,7 +24,7 @@ public class RestHandlerController {
 
 
     @ExceptionHandler({PasswordNotMatchException.class, BadCredentialsException.class})
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map incorrectArguments(Exception exception) {
         log.warn(exception.getMessage());
 
@@ -80,7 +80,7 @@ public class RestHandlerController {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map incorrectConvertFromJson(HttpMessageNotReadableException e) {
         log.warn(e.getMessage());
 
