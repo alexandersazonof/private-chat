@@ -1,5 +1,6 @@
 package com.sazonov.chatservice.service.impl;
 
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.repository.ChatRepository;
 import com.sazonov.chatservice.api.rest.exception.RestException;
@@ -13,9 +14,7 @@ import java.util.List;
 @Service
 public class ChatServiceImpl implements ChatService {
 
-
-    private ChatRepository chatRepository;
-
+    private final ChatRepository chatRepository;
 
     @Autowired
     public ChatServiceImpl(ChatRepository chatRepository) {
@@ -36,14 +35,13 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Chat update(Chat chat) {
-        return chatRepository.save(chat);
+    public void update(Chat chat) {
+        chatRepository.save(chat);
     }
 
     @Override
     public Chat findById(Long id) throws RestException {
-        return chatRepository.findById(id).orElseThrow(() -> new ChatNotFoundException("Chat don't found"));
-
+        return chatRepository.findById(id).orElseThrow(() -> new ChatNotFoundException(MessageResponse.CHAT_NOT_FOUND));
     }
 
     @Override

@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MessageDto {
 
-
     @NotBlank
     private String value;
 

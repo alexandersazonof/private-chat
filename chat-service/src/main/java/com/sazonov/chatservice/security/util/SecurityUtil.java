@@ -16,40 +16,18 @@ import java.util.List;
 @Component
 public class SecurityUtil {
 
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
-
-    public boolean userExistsInChats(User user, List<Chat> chats) throws AccessDeniedException {
-
-        int countChats = 0;
-
-        for (Chat chat :chats) {
-
-            try {
-
-                userExistInChat(user, chat);
-
-            } catch (AccessDeniedException e) {
-                countChats++;
-            }
-
-        }
-
-        if (countChats == 0) {
-            throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
-        }
-
-        return true;
+    public SecurityUtil(UserService userService) {
+        this.userService = userService;
     }
 
-    public boolean userExistInChat(User user, Chat chat) throws AccessDeniedException {
+    public void userExistInChat(User user, Chat chat) throws AccessDeniedException {
 
         int countChats = 0;
 
         for (User u :chat.getUsers()) {
-
             if (u.getLogin().equals(user.getLogin())) {
                 countChats++;
             }
@@ -58,8 +36,6 @@ public class SecurityUtil {
         if (countChats == 0) {
             throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
-
-        return true;
     }
 
     public User getUserFromSecurityContext() throws RestException {
@@ -71,22 +47,16 @@ public class SecurityUtil {
 
 
 
-    public boolean userHasAccess(Long id) throws RestException {
-
+    public void userHasAccess(Long id) throws RestException {
         if (id != getUserFromSecurityContext().getId()) {
             throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
-
-        return true;
     }
 
-    public boolean userHasAccessToMessage(User user, Message message) throws AccessDeniedException {
-
+    public void userHasAccessToMessage(User user, Message message) throws AccessDeniedException {
         if(user.getId() != message.getUser().getId()) {
             throw new AccessDeniedException(MessageResponse.RESPONSE_SUCCESS);
         }
-
-        return true;
     }
 
     public void deletePassword(User user) {
@@ -96,14 +66,11 @@ public class SecurityUtil {
     }
 
     public void deletePassword(List<User> users) {
-        users.stream().forEach(user -> deletePassword(user));
+        users.forEach(user -> deletePassword(user));
     }
 
     public Chat deletePassword(Chat chat) {
-        chat.getUsers().stream().forEach(user -> {
-            deletePassword(user);
-        });
-
+        chat.getUsers().forEach(user -> deletePassword(user));
         return chat;
     }
 }

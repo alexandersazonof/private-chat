@@ -23,10 +23,12 @@ import static org.springframework.http.ResponseEntity.ok;
 @CrossOrigin
 public class AuthController {
 
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/signin")
     @ApiOperation(value = "Sign in user, and response token")

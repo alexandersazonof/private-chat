@@ -34,11 +34,11 @@ public class ChatServiceTest {
 
     private Chat chat;
     private User user;
-    private List<User> users;
     private List<Chat> chats;
 
     @Before
     public void init(){
+
         user = User.builder()
                 .id(1L)
                 .login("login1")
@@ -48,7 +48,7 @@ public class ChatServiceTest {
                 .build();
 
 
-        users = Arrays.asList(user);
+        List<User> users = Arrays.asList(user);
 
 
         chat = Chat.builder()

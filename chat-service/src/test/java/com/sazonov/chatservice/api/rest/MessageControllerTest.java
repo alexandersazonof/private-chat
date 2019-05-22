@@ -1,11 +1,9 @@
 package com.sazonov.chatservice.api.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.domain.Message;
 import com.sazonov.chatservice.domain.User;
 import com.sazonov.chatservice.dto.ChatDto;
-import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.security.provider.JwtTokenProvider;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.impl.ChatServiceImpl;
@@ -59,23 +57,15 @@ public class MessageControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-
-    private User user;
-    private ChatDto chatDto;
     private Chat chat;
-    private List<Chat> chats;
     private Message message;
-    private MessageDto messageDto;
     private List<Message> messages;
-    private ObjectMapper objectMapper;
 
     @Before
     public void init(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        objectMapper = new ObjectMapper();
-
-        user = User.builder()
+        User user = User.builder()
                 .id(1L)
                 .name("maga")
                 .password("password")
@@ -83,7 +73,7 @@ public class MessageControllerTest {
                 .roles(Arrays.asList("ROLE_USER"))
                 .build();
 
-        chatDto = ChatDto.builder()
+        ChatDto chatDto = ChatDto.builder()
                 .name("mychat")
                 .members(Arrays.asList(Long.valueOf(1), 1L))
                 .build();
@@ -94,7 +84,6 @@ public class MessageControllerTest {
                 .users(Arrays.asList(user))
                 .build();
 
-        chats = Arrays.asList(chat);
 
         message = Message.builder()
                 .id(1L)
@@ -105,11 +94,6 @@ public class MessageControllerTest {
                 .build();
 
         messages = Arrays.asList(message);
-
-        messageDto = MessageDto.builder()
-                .userId(1L)
-                .value("qq")
-                .build();
     }
 
     @Test

@@ -19,14 +19,11 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class CurrentUser implements UserDetails {
 
-
     private Long id;
-
     private String login;
     private String password;
     private String name;
     private List<String> roles;
-
 
     public CurrentUser(User user) {
         id = user.getId();

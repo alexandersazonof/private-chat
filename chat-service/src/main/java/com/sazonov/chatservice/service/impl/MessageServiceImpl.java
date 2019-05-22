@@ -1,6 +1,7 @@
 package com.sazonov.chatservice.service.impl;
 
 import com.sazonov.chatservice.api.rest.exception.RestException;
+import com.sazonov.chatservice.api.rest.util.MessageResponse;
 import com.sazonov.chatservice.domain.Message;
 import com.sazonov.chatservice.repository.MessageRepository;
 import com.sazonov.chatservice.service.MessageService;
@@ -13,10 +14,12 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService {
 
+    private final MessageRepository messageRepository;
 
     @Autowired
-    private MessageRepository messageRepository;
-
+    public MessageServiceImpl (MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
     @Override
     public Message save(Message message) {
@@ -24,20 +27,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message update(Message message) {
-        return messageRepository.save(message);
+    public void update(Message message) {
+        messageRepository.save(message);
     }
 
     @Override
-    public boolean delete(Message message) {
+    public void delete(Message message) {
         messageRepository.delete(message);
-
-        return true;
     }
 
     @Override
     public Message findById(Long id) throws RestException {
-        return messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException("Message not found"));
+        return messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException(MessageResponse.MESSAGE_NOT_FOUND));
     }
 
     @Override

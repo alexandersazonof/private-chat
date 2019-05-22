@@ -4,7 +4,6 @@ import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class UserNotFoundException extends RestException {
 
-
     public UserNotFoundException(){
         super();
     }

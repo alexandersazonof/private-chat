@@ -18,9 +18,7 @@ import java.util.HashMap;
 @Slf4j
 public class JwtTokenFilter extends GenericFilter {
 
-
-    private JwtTokenProvider jwtTokenProvider;
-
+    private final JwtTokenProvider jwtTokenProvider;
 
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -42,7 +40,7 @@ public class JwtTokenFilter extends GenericFilter {
             }
         } catch (InvalidJwtAuthenticationException e) {
 
-            HashMap model = new HashMap();
+            HashMap<String, String> model = new HashMap<>();
             model.put("message", "Incorrect token");
 
             res.setContentType("application/json");
@@ -55,7 +53,7 @@ public class JwtTokenFilter extends GenericFilter {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    public String convertObjectToJson(Object object) throws JsonProcessingException {
+    private String convertObjectToJson(Object object) throws JsonProcessingException {
         if (object == null) {
             return null;
         }

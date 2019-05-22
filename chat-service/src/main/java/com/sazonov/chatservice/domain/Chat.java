@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Chat {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

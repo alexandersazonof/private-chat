@@ -35,15 +35,12 @@ public class MessageServiceTest {
     private SecurityUtil securityUtil;
 
     private Chat chat;
-    private User user;
     private Message message;
-    private List<User> users;
-    private List<Chat> chats;
     private List<Message> messages;
 
     @Before
     public void init(){
-        user = User.builder()
+        User user = User.builder()
                 .id(1L)
                 .login("login1")
                 .password("password")
@@ -52,7 +49,7 @@ public class MessageServiceTest {
                 .build();
 
 
-        users = Arrays.asList(user);
+        List<User> users = Arrays.asList(user);
 
 
         chat = Chat.builder()
@@ -60,8 +57,6 @@ public class MessageServiceTest {
                 .name("Your chat")
                 .users(users)
                 .build();
-
-        chats = Arrays.asList(chat);
 
         message = Message.builder()
                 .id(1L)

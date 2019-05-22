@@ -22,7 +22,6 @@ import java.util.Map;
 @Slf4j
 public class RestHandlerController {
 
-
     @ExceptionHandler({PasswordNotMatchException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map incorrectArguments(Exception exception) {
@@ -87,10 +86,8 @@ public class RestHandlerController {
         return message("Incorrect arguments");
     }
 
-
-
     private Map message(String message) {
-        Map model = new HashMap();
+        Map<String, String> model = new HashMap<>();
 
         model.put("message", message);
 

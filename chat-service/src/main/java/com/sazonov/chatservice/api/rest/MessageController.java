@@ -1,19 +1,18 @@
 package com.sazonov.chatservice.api.rest;
 
+import com.sazonov.chatservice.api.rest.exception.RestException;
 import com.sazonov.chatservice.api.rest.util.MessageResponse;
-import com.sazonov.chatservice.dto.MessageDto;
+import com.sazonov.chatservice.domain.ApiMessage;
 import com.sazonov.chatservice.domain.Chat;
 import com.sazonov.chatservice.domain.Message;
-import com.sazonov.chatservice.domain.ApiMessage;
 import com.sazonov.chatservice.domain.User;
-import com.sazonov.chatservice.api.rest.exception.RestException;
+import com.sazonov.chatservice.dto.MessageDto;
 import com.sazonov.chatservice.security.util.SecurityUtil;
 import com.sazonov.chatservice.service.ChatService;
 import com.sazonov.chatservice.service.MessageService;
 import com.sazonov.chatservice.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,24 +22,23 @@ import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/api/v1/chats/{chatId}/messages")
 @Api(value = "Message management system")
 public class MessageController {
 
+    private final MessageService messageService;
+    private final ChatService chatService;
+    private final UserService userService;
+    private final SecurityUtil securityUtil;
 
-    @Autowired
-    private MessageService messageService;
-
-    @Autowired
-    private ChatService chatService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SecurityUtil securityUtil;
-
+    public MessageController(MessageService messageService,ChatService chatService, UserService userService, SecurityUtil securityUtil) {
+        this.messageService = messageService;
+        this.chatService = chatService;
+        this.securityUtil = securityUtil;
+        this.userService = userService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Get messages by chat id")
@@ -132,10 +130,8 @@ public class MessageController {
 
         messageService.delete(message);
 
-        return ok(
-                ApiMessage.builder()
-                        .put(MessageResponse.RESPONSE_SUCCESS, true)
-        );
+        return ok(ApiMessage.builder()
+                        .put(MessageResponse.RESPONSE_SUCCESS, true));
     }
 
     @PutMapping("/{id}")

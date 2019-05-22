@@ -26,13 +26,14 @@ import static org.springframework.http.ResponseEntity.ok;
 @Api(value = "User management system")
 public class UserController {
 
+    private final UserService userService;
+    private final SecurityUtil securityUtil;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SecurityUtil securityUtil;
-
+    public UserController(UserService userService, SecurityUtil securityUtil) {
+        this.userService = userService;
+        this.securityUtil = securityUtil;
+    }
 
     @GetMapping
     @ApiOperation(value = "Get list of users")
@@ -43,7 +44,7 @@ public class UserController {
 
         List<User> users = userService.findAll().stream().filter(user -> user.getId() != mainUser.getId()).collect(Collectors.toList());
 
-        users.stream().forEach(user -> securityUtil.deletePassword(user));
+        users.forEach(user -> securityUtil.deletePassword(user));
 
         return ok(
                 ApiMessage.builder()

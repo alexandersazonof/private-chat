@@ -2,20 +2,19 @@ package com.sazonov.chatservice.api.rest.exception;
 
 public class RestException extends Exception {
 
-
-    public RestException(){
+    protected RestException(){
         super();
     }
 
-    public RestException(String message){
+    protected RestException(String message){
         super(message);
     }
 
-    public RestException(String message, Exception e){
+    protected RestException(String message, Exception e){
         super(message, e);
     }
 
-    public RestException(Exception e){
+    protected RestException(Exception e){
         super(e);
     }
 }

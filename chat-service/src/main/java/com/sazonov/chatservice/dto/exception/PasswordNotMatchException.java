@@ -4,7 +4,6 @@ import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class PasswordNotMatchException extends RestException {
 
-
     public PasswordNotMatchException(){
         super();
     }

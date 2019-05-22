@@ -28,19 +28,18 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/v1/chats")
 @Slf4j
 @Api(value = "Chat management system")
-@CrossOrigin(origins = "*")
 public class ChatController {
 
+    private final ChatService chatService;
+    private final UserService userService;
+    private final SecurityUtil securityUtil;
 
     @Autowired
-    private ChatService chatService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SecurityUtil securityUtil;
-
+    public ChatController(ChatService chatService, UserService userService, SecurityUtil securityUtil) {
+        this.chatService = chatService;
+        this.userService = userService;
+        this.securityUtil = securityUtil;
+    }
 
     @GetMapping
     @ApiOperation(value = "Get chats of user")
@@ -52,9 +51,8 @@ public class ChatController {
 
         securityUtil.userHasAccess(userId);
 
-        List<Chat> chats = chatService.findByUserId(userId, value).stream().map(chat -> {
+        List<Chat> chats = chatService.findByUserId(userId, value).stream().peek(chat -> {
              securityUtil.deletePassword(chat.getUsers());
-             return chat;
         }).collect(Collectors.toList());
 
         return ok(
@@ -116,7 +114,6 @@ public class ChatController {
     public ResponseEntity deleteChatById(@PathVariable Long id) throws RestException {
         log.info("Delete chat by id: " + id.toString());
 
-
         Chat chat = chatService.findById(id);
         User user = securityUtil.getUserFromSecurityContext();
 
@@ -155,7 +152,6 @@ public class ChatController {
                 .build();
 
         chatService.update(updateChat);
-
 
         return ok(
                 ApiMessage.builder()

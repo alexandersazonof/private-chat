@@ -4,7 +4,6 @@ import com.sazonov.chatservice.api.rest.exception.RestException;
 
 public class AccessDeniedException extends RestException {
 
-
     public AccessDeniedException(){
         super();
     }
